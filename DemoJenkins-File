@@ -1,0 +1,106 @@
+pipeline {
+
+    agent any
+
+}
+
+stages {
+    stage ('Checkout'){
+
+        steps{
+              echo 'Checking out code from Git'
+
+              git branch: main , url: 'https://github.com/duraipandigit/pipeline_test.git'
+        }
+
+    }
+
+    stage('Unit test'){
+        
+        steps{
+
+            echo ' Running Unit Test'
+
+        }
+    }
+
+    stage ('Code Coverage'){
+
+        steps{
+
+            echo 'Running Code Coverage'
+        }
+    }
+
+    stage('SonarQube Analysis'){
+
+        steps{
+
+            echo 'Running SonarQube Analysis'
+        }
+    }
+
+    stage('Quality Gate'){
+
+        steps{
+
+            echo 'Running Quality gate'
+
+            timeout(time:5, unite:Minutes)
+
+        }
+    }    
+    
+    stage(*'Build'){
+
+        steps{
+
+            echo 'Running build steps'
+        }
+    }
+
+    stage("Docker Image Creation"){
+
+        steps{
+
+            echo ' Creating docker image'
+
+        }
+
+    }
+
+    post {
+
+        success{
+
+            echo 'pipeline completed successfully!'
+        }
+
+        aborted{
+
+            echo 'Pipeline was aborted'
+        }
+
+        unstable{
+
+            echo ' Pipeline is unstable'
+        }
+
+        failure {
+
+            echo 'pipeline failed'
+        }
+
+        always{
+
+            echo 'This will run always , for code cleanup email notification'
+        }
+    }
+
+        
+        }
+
+    }
+
+}
+    
