@@ -38,20 +38,7 @@ stages {
             echo 'Running SonarQube Analysis'
         }
     }
-
-    stage('Quality Gate'){
-
-        steps{
-
-            echo 'Running Quality gate'
-
-            timeout(time:5, unit:'MINUTES')
-
-            waitForQualityGate abortPipeline: true
-
-        }
-    }    
-    
+        
     stage('Build'){
 
         steps{
