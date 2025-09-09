@@ -1,7 +1,9 @@
 pipeline {
 
     agent any
+
 stages {
+    
     stage ('Checkout'){
 
         steps{
@@ -43,12 +45,14 @@ stages {
 
             echo 'Running Quality gate'
 
-            timeout(time:5, unite:Minutes)
+            timeout(time:5, unit:'MINUTES')
+
+            waitForQualityGate abortPipeline: true
 
         }
     }    
     
-    stage(*'Build'){
+    stage('Build'){
 
         steps{
 
