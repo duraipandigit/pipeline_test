@@ -1,0 +1,104 @@
+@Library('jenkins-shared-lib@main')_
+
+pipeline {
+
+    agent any
+
+stages {
+    
+    stage ('Checkout'){
+
+        steps{
+              echo 'Checking out code from Git'
+
+              git url: 'https://github.com/duraipandigit/pipeline_test.git',branch: 'main',credentialsId: 'GitHub_Token'
+        }
+
+    }
+
+    stage('Unit test'){
+        
+        steps{
+
+            echo ' Running Unit Test'
+
+        }
+    }
+
+    stage ('Code Coverage'){
+
+        steps{
+
+            CodeCoverage()
+        }
+    }
+    stage('SonarQube analysis') {
+            steps{
+               script{
+                  def projectkey = "testtoken"
+                  SonarQubeAnalysis(projectkey)
+               }
+            }
+         }
+         stage('Validate Qualitygates'){
+            steps {
+               script {
+                  def sonarqubeurl = "http://10.192.190.152:31506"
+                  def sonarqubeToken = "Sonar-tokengd"
+                  def projectKey = "testtoken"
+                  def qualityGateStatusUrl = "${sonarqubeurl}/api/qualitygates/project_status?projectKey=${projectKey}"
+                  def sonarqubeQualityGateStatus = sh(script: "curl -k -u ${sonarqubeToken}: '${qualityGateStatusUrl}'", returnStdout: true).trim()
+                  SonarQualityGates(sonarqubeQualityGateStatus)
+               }
+            }
+         }
+    
+    stage('Build'){
+
+        steps{
+
+            echo 'Running build steps'
+        }
+    }
+
+    stage("Docker Image Creation"){
+
+        steps{
+
+            echo ' Creating docker image'
+
+        }
+    
+
+    }
+
+}
+    post {
+
+        success{
+
+            echo 'pipeline completed successfully!'
+        }
+
+        aborted{
+
+            echo 'Pipeline was aborted'
+        }
+
+        unstable{
+
+            echo ' Pipeline is unstable'
+        }
+
+        failure {
+
+            echo 'pipeline failed'
+        }
+
+        always{
+
+            echo 'This will run always , for code cleanup email notification'
+        }
+    }
+    
+}
