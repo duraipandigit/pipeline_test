@@ -1,3 +1,5 @@
+@Library('jenkins-shared-lib@main')_
+
 pipeline {
 
     agent any
@@ -14,16 +16,31 @@ stages {
 
     }
 
+    stage('Unit test'){
+        
+        steps{
+
+            echo ' Running Unit Test'
+
+        }
+    }
+
+    stage ('Code Coverage'){
+
+        steps{
+
+            CodeCoverage()
+        }
+    }
     stage('SonarQube analysis') {
             steps{
                script{
                   def projectkey = "testtoken"
-                  sonarqube()
+                  SonarQubeAnalysis(projectkey)
                }
             }
          }
-
- stage('Validate Qualitygates'){
+         stage('Validate Qualitygates'){
             steps {
                script {
                   def sonarqubeurl = "http://10.192.190.152:31506"
@@ -34,7 +51,54 @@ stages {
                   SonarQualityGates(sonarqubeQualityGateStatus)
                }
             }
+         }
+    
+    stage('Build'){
+
+        steps{
+
+            echo 'Running build steps'
+        }
+    }
+
+    stage("Docker Image Creation"){
+
+        steps{
+
+            echo ' Creating docker image'
+
+        }
+    
+
+    }
+
 }
-}
+    post {
+
+        success{
+
+            echo 'pipeline completed successfully!'
+        }
+
+        aborted{
+
+            echo 'Pipeline was aborted'
+        }
+
+        unstable{
+
+            echo ' Pipeline is unstable'
+        }
+
+        failure {
+
+            echo 'pipeline failed'
+        }
+
+        always{
+
+            echo 'This will run always , for code cleanup email notification'
+        }
+    }
     
 }
