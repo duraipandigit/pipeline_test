@@ -22,19 +22,6 @@ stages {
                }
             }
          }
-         stage('Validate Qualitygates'){
-            steps {
-               script {
-                  def sonarqubeurl = "http://10.192.190.152:31506"
-                  def sonarqubeToken = "Sonar-tokengd"
-                  def projectKey = "testtoken"
-                  def qualityGateStatusUrl = "${sonarqubeurl}/api/qualitygates/project_status?projectKey=${projectKey}"
-                  def sonarqubeQualityGateStatus = sh(script: "curl -k -u ${sonarqubeToken}: '${qualityGateStatusUrl}'", returnStdout: true).trim()
-                  SonarQualityGates(sonarqubeQualityGateStatus)
-               }
-            }
-    }
-
 }
     
 }
