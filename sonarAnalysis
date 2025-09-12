@@ -36,7 +36,7 @@ stages {
             steps {
         echo "Running SonarQube analysis"
         withSonarQubeEnv("${SONAR_SERVER}") {
-          sh "mvn -B sonar:sonar -Dsonar.projectKey=testproject -Dsonar.host.url=${env.http://10.192.190.152:31506} -Dsonar.login=${env.testtoken}"
+          sh """mvn -B sonar:sonar -Dsonar.projectKey=testproject -Dsonar.host.url=${env.http://10.192.190.152:31506} -Dsonar.login=${env.testtoken}"""
         }
       }
     }
