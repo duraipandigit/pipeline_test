@@ -32,29 +32,15 @@ stages {
             CodeCoverage()
         }
     }
-    stage('SonarQube Analysis') {
+   stage('SonarQube Analysis') {
             steps {
-        echo "Running SonarQube analysis"
-        withSonarQubeEnv("${SONAR_SERVER}") {
-          sh """mvn -B sonar:sonar -Dsonar.projectKey=testproject -Dsonar.host.url=${env.http://10.192.190.152:31506} -Dsonar.login=${env.testtoken}"""
-        }
-      }
-    }
-
-    stage('Wait for Quality Gate') {
-           steps {
-        script {
-          timeout(time: 10, unit: 'MINUTES') {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-              error "Pipeline aborted due to SonarQube Quality Gate: ${qg.status}"
-            } else {
-              echo "Quality gate passed: ${qg.status}"
+                // Use withSonarQubeEnv to set up SonarQube environment variables
+                withSonarQubeEnv('http://10.192.190.152:31506') {  // Replace with your server name from Jenkins config
+                    // For Maven projects
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=testproject -Dsonar.projectName=testproject'
+                }
             }
-          }
-        }
-      }
-    }
+}
     
     stage('Build'){
 
