@@ -32,14 +32,12 @@ stages {
             CodeCoverage()
         }
     }
-   stage('SonarQube Analysis') {
-            steps {
-                // Use withSonarQubeEnv to set up SonarQube environment variables
-                withSonarQubeEnv('http://10.192.190.152:31506') {  // Replace with your server name from Jenkins config
-                    // For Maven projects
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=testproject -Dsonar.projectName=testproject'
-                }
-            }
+   stage(Sonarqube Analysis) {
+        
+      steps{
+
+           SonarqubeAnalysis()
+}
 }
     
     stage('Build'){
