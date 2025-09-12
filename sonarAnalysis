@@ -10,7 +10,7 @@ pipeline{
 stage('SonarQube Analysis') {
     steps {
         echo "Running SonarQube analysis..."
-        withSonarQubeEnv("${SONARQUBE}") {
+         {
             sh """
                 mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=testproject \
