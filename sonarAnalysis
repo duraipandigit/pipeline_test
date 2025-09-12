@@ -32,11 +32,11 @@ stages {
             CodeCoverage()
         }
     }
-    stage('SonarQube analysis') {
+    stage('SonarQube Analysis') {
             steps{
                script{
                   def projectkey = "testtoken"
-                  SonarQubeAnalysis(projectkey)
+                  SonarQubeAnalysis(testtoken)
                }
             }
          }
