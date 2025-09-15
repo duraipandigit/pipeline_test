@@ -4,8 +4,7 @@ pipeline{
      tools {
 
        maven 'mvn3911'
-       sonar 'sonarqube_test'
-      }
+         }
 
    stages{
      stage ('Checkout'){
