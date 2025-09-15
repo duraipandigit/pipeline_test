@@ -4,6 +4,7 @@ pipeline{
      tools {
 
        maven 'mvn3911'
+       sonar 'SonarScanner7.2'
       }
 
    stages{
