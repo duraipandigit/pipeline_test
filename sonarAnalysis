@@ -17,7 +17,7 @@ stage('SonarQube Analysis') {
         echo "Running SonarQube analysis..."
          
             sh """
-                     sonarqube_test
+                     sonarqube_test \
                     -Dsonar.projectKey=testproject \
                     -Dsonar.projectName=testproject \
                     -Dsonar.host.url=http://10.192.190.152:31506 \
