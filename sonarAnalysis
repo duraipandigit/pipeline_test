@@ -1,10 +1,10 @@
 pipeline{
    agent 'any'
 
-    environment {
-        MAVEN_HOME = tool 'Maven' // Name you gave in Global Tool Configuration
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Add Maven bin to PATH
-    }
+#    environment {
+ #       MAVEN_HOME = tool 'Maven' // Name you gave in Global Tool Configuration
+  #      PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Add Maven bin to PATH
+  #  }
 
    stages{
      stage ('Checkout'){
@@ -17,7 +17,7 @@ stage('SonarQube Analysis') {
         echo "Running SonarQube analysis..."
          
             sh """
-                mvn clean verify sonar:sonar \
+                $mvn3911 clean verify sonar:sonar \
                     -Dsonar.projectKey=testproject \
                     -Dsonar.projectName=testproject \
                     -Dsonar.host.url=http://10.192.190.152:31506 \
