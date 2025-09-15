@@ -3,7 +3,7 @@ pipeline{
 
      tools {
 
-       maven mvn3911
+       maven 'mvn3911'
       }
 
    stages{
