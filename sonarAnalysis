@@ -14,14 +14,23 @@ pipeline{
      }
 stage('SonarQube Analysis') {
     steps {
+        WithSonarQubeEnv('sonarqube-server'){
         echo "Running SonarQube analysis..."
          
             sh """
                    
-                    -Dsonar.projectKey=sonarqube-test \
-                    -Dsonar.projectName=Sonar-Qube-Project \
-                    -Dsonar.host.url=http://10.192.190.152:31506 \
-                    -Dsonar.login=SonarTokenNew
+                   # -Dsonar.projectKey=sonarqube-test \
+                   # -Dsonar.projectName=Sonar-Qube-Project \
+                   # -Dsonar.host.url=http://10.192.190.152:31506 \
+                   # -Dsonar.login=SonarTokenNew
+
+                     sonar-scanner \
+                     -Dsonar.projectKey=sonarqube-test \
+                     -Dsonar.sources=Sonar-Qube-Project \
+                     -Dsonar.host.url=http://10.192.190.152:31506 \
+                     -Dsonar.login=SonarTokenNew
+
+ 
             """
         }
     }
